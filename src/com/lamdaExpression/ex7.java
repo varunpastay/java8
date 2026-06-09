@@ -430,6 +430,8 @@ public class ex7 {
 		
 		
 		// 39. all salesman , Result must be in list
+	    System.out.println("----------39----------");
+
 		List<Emp> emp_List1 = 
 		elist.stream()
 				.filter(e->e.job.equalsIgnoreCase("salesman"))
@@ -438,14 +440,18 @@ public class ex7 {
 		  
        
        //40. emp fname , lname , sal , deptno ,if the is working as developer or dispatcher , display data in set
-		Set<String> emp_Set1 = 
+	    System.out.println("----------40----------");
+
+       Set<String> emp_Set1 = 
 		elist.stream()
 		     .filter(e->e.job.equalsIgnoreCase("developer") || e.job.equalsIgnoreCase("dispatcher"))
              .map(e->e.fname+" "+e.lname+" "+ e.salary+" "+e.dno)		     
              .collect(Collectors.toSet());
 	    emp_Set1.forEach(System.out::println);
 	    
-	    System.out.println("\n41. dept no 113 , o/p  in map");
+	    
+	    //41. dept no 113 , o/p  in map
+	    System.out.println("----------41----------");
 	    Map<Integer, Emp> map1= 
 	    		elist.stream()
 	    		     .filter(e->e.dno==113)
@@ -453,7 +459,8 @@ public class ex7 {
        
 	    System.out.println(map1);
 	    
-	    System.out.println("\n42. all the dept data ");
+	    //42. all the dept data 
+	    System.out.println("----------41----------");
 	    Map<Integer, Emp> map2= 
 	    		elist.stream()
 	    		.collect(Collectors.toMap(e->e.id, e->e));
@@ -485,6 +492,36 @@ public class ex7 {
 		Optional<Emp> min_sal=elist.stream()
 								.collect(Collectors.minBy(Comparator.comparing(e->e.salary)));
 		System.out.println(min_sal.get());
+		
+		
+		//45.waptd the max salary in each dept (groupby)
+		
+		System.out.println("---------45-----------");
+		Map<Integer,Optional<Emp>> max_emp_dno=elist.stream()
+				.collect(Collectors.groupingBy(e->e.dno,Collectors.maxBy(Comparator.comparing(e->e.salary)) ));
+		max_emp_dno.forEach((dno,o)->System.out.println(dno+" "+o.orElse(null)));
+
+		
+		//46.waptd min sal in each dept
+		
+		System.out.println("---------45-----------");
+		Map<Integer,Optional<Emp>> min_emp_dno=elist.stream()
+				.collect(Collectors.groupingBy(e->e.dno,Collectors.minBy(Comparator.comparing(e->e.salary)) ));
+		min_emp_dno.forEach((dno,o)->System.out.println(dno+" "+o.orElse(null)));
+		
+		
+		//47.waptd the no of emps in each dept
+		
+		
+		
+		
+
+		
+		
+		
+		
+		
+		
 	}
 
 }
