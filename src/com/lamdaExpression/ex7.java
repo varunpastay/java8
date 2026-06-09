@@ -8,9 +8,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 class Emp {
@@ -425,6 +429,62 @@ public class ex7 {
 		System.out.println(dept_count);
 		
 		
+		// 39. all salesman , Result must be in list
+		List<Emp> emp_List1 = 
+		elist.stream()
+				.filter(e->e.job.equalsIgnoreCase("salesman"))
+				.collect(Collectors.toList());
+       emp_List1.forEach(System.out::println);
+		  
+       
+       //40. emp fname , lname , sal , deptno ,if the is working as developer or dispatcher , display data in set
+		Set<String> emp_Set1 = 
+		elist.stream()
+		     .filter(e->e.job.equalsIgnoreCase("developer") || e.job.equalsIgnoreCase("dispatcher"))
+             .map(e->e.fname+" "+e.lname+" "+ e.salary+" "+e.dno)		     
+             .collect(Collectors.toSet());
+	    emp_Set1.forEach(System.out::println);
+	    
+	    System.out.println("\n41. dept no 113 , o/p  in map");
+	    Map<Integer, Emp> map1= 
+	    		elist.stream()
+	    		     .filter(e->e.dno==113)
+	    		     .collect(Collectors.toMap(e->e.id, e->e));
+       
+	    System.out.println(map1);
+	    
+	    System.out.println("\n42. all the dept data ");
+	    Map<Integer, Emp> map2= 
+	    		elist.stream()
+	    		.collect(Collectors.toMap(e->e.id, e->e));
+	    
+	    System.out.println(map2);
+	    
+	    String name = "Ramu";
+	    String name1 = null;
+	    Optional<String> opt = Optional.ofNullable(name);
+	    Optional<String> opt1 = Optional.ofNullable(name1);
+	    System.out.println("\n"+opt.get());
+	    System.out.println("\n"+opt.isPresent());
+	    System.out.println("\n"+opt.isEmpty());
+//	    System.out.println("\n"+opt1.get());
+	    System.out.println("\n"+opt1.isPresent());
+	    System.out.println("\n"+opt1.isEmpty());
+	    System.out.println("\n"+opt1.orElse("No names available"));  // to handle the null pointer exception , print alternate message
+		
+	    
+	    //43.waptd the emp data who is optaining max salary from emp.
+	    System.out.println("----------43-------------");
+	    Optional<Emp> max_sal= elist.stream()
+	    					.collect(Collectors.maxBy(Comparator.comparing(e->e.salary)));
+	    
+		System.out.println(max_sal.get());
+		
+		//44.waptd the emps who are getting min salary
+		System.out.println("---------44-----------");
+		Optional<Emp> min_sal=elist.stream()
+								.collect(Collectors.minBy(Comparator.comparing(e->e.salary)));
+		System.out.println(min_sal.get());
 	}
 
 }
