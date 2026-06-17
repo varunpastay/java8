@@ -512,7 +512,91 @@ public class ex7 {
 		
 		//47.waptd the no of emps in each dept
 		
+		System.out.println("\n47. the number of emps in each dept");
+		Map<Integer, Long> count_dept =
+		        elist.stream()
+		             .collect(Collectors.groupingBy(e -> e.dno,
+		                     Collectors.counting()));
+
+		count_dept.forEach((dno, count) -> System.out.println(dno + " " + count));
 		
+		
+		System.out.println("\n48. no of emp in each job role");
+		Map<String,Long> emp_job_count = 
+		elist.stream()
+		     .collect(Collectors.groupingBy(e->e.job
+		    		 ,Collectors.counting()));
+		
+		emp_job_count.forEach((ejob,count)->System.out.println(ejob+" "+count));
+		
+		
+		System.out.println("\n49. max sal in each job role");
+		
+		Map<String, Optional<Emp>> sal_count = 
+				elist.stream()
+				     .collect(Collectors.groupingBy(e->e.job
+				    		 ,Collectors.maxBy(Comparator.comparing(e->e.salary))));
+		
+		sal_count.forEach((ejob,o)->System.out.println(ejob+" "+o.orElse(null)));
+		
+		
+		System.out.println("\n50. avg sal in each job role");
+		
+		Map<String, Double> avg_sal = 
+				elist.stream()
+				     .collect(Collectors.groupingBy(e->e.job
+				    		 ,Collectors.averagingDouble(e->e.salary)));
+		avg_sal.forEach((ejob,avgSal)->System.out.println(ejob+" "+avgSal));
+		
+		
+		System.out.println("\n51. total sal in each job role");
+		
+		Map<String, Double> sum_sal = 
+				elist.stream()
+				     .collect(Collectors.groupingBy(e->e.job
+				    		 ,Collectors.summingDouble(e->e.salary)));
+		sum_sal.forEach((ejob,sumSal)->System.out.println(ejob+" "+sumSal));
+		
+				
+		System.out.println("\n52. first emp from each job list");
+		Optional<Emp> first_emp = 
+				elist.stream()
+				.findFirst();
+		System.out.println(first_emp.orElse(null)); 
+		
+		System.out.println("\n53. first emp from each job role");
+		List<Integer> depts = 
+				elist.stream()
+				.map(e->e.dno)
+				.distinct()
+				.collect(Collectors.toList());
+		
+		for(Integer dep : depts) {
+			Optional<Emp> o =  elist.stream().filter(e->e.dno==dep).findFirst();
+			System.out.println(dep+" - "+ o.orElse(null));
+		}
+		
+		
+        System.out.println("\n54. check any emp belong to dept 114 or not");
+        Boolean res1 =
+        		elist.stream()
+        		     .anyMatch(e->e.dno == 114);
+        System.out.println(res1);
+        
+        
+        System.out.println("\n54. check any emp belong to dept 115 or not");
+        Boolean res2 =
+        		elist.stream()
+        		.anyMatch(e->e.dno == 115);
+        System.out.println(res2);
+        
+        
+		//55. wap to check weather any emp belong to 115
+		System.out.println("-------55---");
+		
+		Boolean res3=elist.stream()
+				.anyMatch(e->e.dno==115);
+		System.out.println(res3);
 		
 		
 
